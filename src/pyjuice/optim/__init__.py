@@ -1,2 +1,2 @@
-from .optim import CircuitOptimizer
-from .scheduler import CircuitScheduler
+from .optim import CircuitOptimizer as CircuitOptimizer
+from .scheduler import CircuitScheduler as CircuitScheduler

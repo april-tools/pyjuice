@@ -1,1 +1,1 @@
-from .probcircuit import ProbCircuit
+from .probcircuit import ProbCircuit as ProbCircuit
