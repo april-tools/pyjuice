@@ -21,6 +21,9 @@ authors = [
 [options.packages.find]
 where = "src"
 
+[tool.setuptools.package-data]
+pyjuice = ["py.typed"]
+
 [tool.setuptools.dynamic]
 readme = {file = "README.md"}
 
