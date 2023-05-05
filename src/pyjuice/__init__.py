@@ -1,7 +1,7 @@
-import pyjuice.graph
-import pyjuice.layer
-import pyjuice.structures
-import pyjuice.optim
-import pyjuice.transformations
-from pyjuice.utils import *
-from pyjuice.model import ProbCircuit as ProbCircuit
+from . import graph
+from . import layer
+from . import structures
+from . import optim
+from . import transformations
+from .utils import *
+from .model import ProbCircuit as ProbCircuit
