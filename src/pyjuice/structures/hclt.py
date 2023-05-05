@@ -71,7 +71,7 @@ def HCLT(x: torch.Tensor, num_bins: int, sigma: float,
                                             num_latents: int, 
                                             max_npartitions: Optional[int] = None,
                                             input_layer_type: Type[InputLayer] = CategoricalLayer, 
-                                            input_layer_params: dict = {"num_cats": 256}):
+                                            input_layer_params: dict = {"num_cats": 256}) -> ProbCircuit:
     
     mi = mutual_information_chunked(x, x, num_bins, sigma, chunk_size = chunk_size).detach().cpu().numpy()
     T = chow_liu_tree(mi)

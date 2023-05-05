@@ -330,7 +330,7 @@ class ProbCircuit(nn.Module):
         return None
     
     @staticmethod
-    def load(filename):
+    def load(filename: str) -> ProbCircuit:
         pc = torch.load(filename, map_location='cpu')
         pc._init_pass_tensors_()
         pc._init_ad_tensors()
@@ -346,7 +346,7 @@ class ProbCircuit(nn.Module):
         torch.save(self, filename)
 
 
-    def to(self, device):
+    def to(self, device: torch.device) -> None:
         super(ProbCircuit, self).to(device)
 
         for layer in self.input_layers:

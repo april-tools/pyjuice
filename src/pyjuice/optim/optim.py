@@ -29,7 +29,7 @@ class CircuitOptimizer():
 
         self.circuit._optim_hyperparams["flows_memory"] = flows_memory
 
-    def step(self, closure = None):
+    def step(self, closure: None = None) -> None:
         if self.base_optimizer is not None:
             self.base_optimizer.step()
 

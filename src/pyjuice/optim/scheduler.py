@@ -43,7 +43,7 @@ class CircuitScheduler():
         else:
             raise ValueError(f"Unknown method {self.method}.")
 
-    def step(self):
+    def step(self) -> None:
         if self.base_scheduler is not None:
             self.base_scheduler.step()
 
