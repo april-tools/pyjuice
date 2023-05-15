@@ -62,9 +62,9 @@ class CategoricalLayer(InputLayer):
 
             if idx == 0:
                 psids[0] = 0
-                psids[1:n_end] = torch.tensor(self.param_ends[0:n_end-1])
+                psids[1:n_end] = self.param_ends[0:n_end-1]
             else:
-                psids[n_start:n_end] = torch.tensor(self.param_ends[n_start-1:n_end-1])
+                psids[n_start:n_end] = self.param_ends[n_start-1:n_end-1]
 
             n_start = n_end
 
