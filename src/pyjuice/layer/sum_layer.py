@@ -1,6 +1,7 @@
 
 from __future__ import annotations
 
+import os
 import torch
 import torch.nn as nn
 import triton
@@ -282,7 +283,7 @@ class SumLayer(Layer,nn.Module):
             else:
                 self._dense_backward_pass3(node_flows, element_flows, node_mars, element_mars, params, param_flows = param_flows)
 
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 7 == 0)
     def _dense_forward_pass(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor):
         for group_id in range(self.num_forward_groups):
             nids = self.grouped_nids[group_id]
@@ -296,7 +297,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
     
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 6 == 0)
     def _dense_forward_pass_nolog(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor, sum_region_mars: torch.tensor):
         for group_id in range(self.num_forward_groups):
             nids = self.grouped_nids[group_id]
@@ -310,7 +311,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
 
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 5 == 0)
     def _dense_backward_pass1(self, node_flows: torch.Tensor, element_flows: torch.Tensor, node_mars: torch.Tensor, 
                               element_mars: torch.Tensor, params: torch.Tensor):
         for group_id in range(self.num_backward_groups):
@@ -323,7 +324,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
 
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 4 == 0)
     def _dense_backward_pass2(self, node_flows: torch.Tensor, element_flows: torch.Tensor, node_mars: torch.Tensor, 
                               element_mars: torch.Tensor, params: torch.Tensor, param_flows: torch.Tensor):
         for group_id in range(self.num_backward_groups):
@@ -342,7 +343,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
 
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 3 == 0)
     def _dense_backward_pass3(self, node_flows: torch.Tensor, element_flows: torch.Tensor, node_mars: torch.Tensor, 
                               element_mars: torch.Tensor, params: torch.Tensor, param_flows: torch.Tensor):
         for group_id in range(self.num_backward_groups):
@@ -361,7 +362,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
     
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 2 == 0)
     def _dense_backward_pass_nolog(self, node_flows: torch.Tensor, element_flows: torch.Tensor, 
                                    node_mars: torch.Tensor, 
                                    element_mars: torch.Tensor, 
@@ -385,7 +386,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
 
-    # @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    # @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 1 == 0)
     def _sample_mask_generation(self, node_mars: torch.Tensor, element_mars: torch.Tensor, params: torch.Tensor,
                                 node_mask: torch.Tensor):
         for group_id in range(self.num_forward_groups):
@@ -401,7 +402,7 @@ class SumLayer(Layer,nn.Module):
 
         return None
 
-    @torch.compile(mode = "reduce-overhead", fullgraph = True)
+    @torch.compile(mode = "reduce-overhead", fullgraph = True, disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 0 == 0)
     def _sample_backward_pass(self, node_flows: torch.Tensor, element_flows: torch.Tensor, node_mars: torch.Tensor, 
                               element_mars: torch.Tensor, params: torch.Tensor, node_mask: torch.Tensor):
         for group_id in range(self.num_backward_groups):

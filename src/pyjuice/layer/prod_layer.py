@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import torch
 import torch.nn as nn
 import triton
@@ -130,7 +131,7 @@ class ProdLayer(Layer,nn.Module):
         else:
             self._dense_backward_pass(node_flows, element_flows)
 
-    @torch.compile(mode = "reduce-overhead")
+    @torch.compile(mode = "reduce-overhead", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 11 == 0)
     def _dense_forward_pass(self, node_mars: torch.Tensor, element_mars: torch.Tensor):
         for group_id in range(self.num_forward_groups):
             nids = self.grouped_nids[group_id]
@@ -140,7 +141,7 @@ class ProdLayer(Layer,nn.Module):
 
         return None
 
-    @torch.compile(mode = "reduce-overhead")
+    @torch.compile(mode = "reduce-overhead", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 10 == 0)
     def _dense_forward_pass_nolog(self, node_mars: torch.Tensor, element_mars: torch.Tensor):
         for group_id in range(self.num_forward_groups):
             nids = self.grouped_nids[group_id]
@@ -150,7 +151,7 @@ class ProdLayer(Layer,nn.Module):
 
         return None
     
-    @torch.compile(mode = "reduce-overhead")
+    @torch.compile(mode = "reduce-overhead", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 9 == 0)
     def _dense_backward_pass_nolog(self, node_flows: torch.Tensor, element_flows: torch.Tensor):
         for group_id in range(self.num_backward_groups):
             parids = self.grouped_parids[group_id]
@@ -161,7 +162,7 @@ class ProdLayer(Layer,nn.Module):
         return None
 
 
-    @torch.compile(mode = "reduce-overhead")
+    @torch.compile(mode = "reduce-overhead", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 8 == 0)
     def _dense_backward_pass(self, node_flows: torch.Tensor, element_flows: torch.Tensor):
         for group_id in range(self.num_backward_groups):
             parids = self.grouped_parids[group_id]
