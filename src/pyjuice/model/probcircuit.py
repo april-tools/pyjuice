@@ -291,7 +291,7 @@ class ProbCircuit(nn.Module):
 
         return samples.permute(1, 0)
 
-    def mini_batch_em(self, step_size: float, pseudocount: float = 0.0):
+    def mini_batch_em(self, step_size: float, pseudocount: float = 0.0) -> None:
         for layer in self.input_layers:
             layer.mini_batch_em(step_size = step_size, pseudocount = pseudocount)
         
