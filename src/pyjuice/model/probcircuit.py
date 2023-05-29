@@ -469,8 +469,12 @@ class ProbCircuit(nn.Module):
         # gradient of PC parameters by PyTorch.
         self.params.requires_grad = False
 
+        num_input_params = 0
         for idx, layer in enumerate(self.input_layers):
-            layer._init_params(perturbation)
+            num_input_params += layer._init_params(perturbation)
+
+        print('Sum params:', self.params.shape[0])
+        print('Input params:', num_input_params)
 
     def _normalize_parameters(self, params, pseudocount: float = 0.0):
         if params is not None:

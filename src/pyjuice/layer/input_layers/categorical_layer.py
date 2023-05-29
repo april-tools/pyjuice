@@ -247,6 +247,7 @@ class CategoricalLayer(InputLayer):
         # Due to the custom inplace backward pass implementation, we do not track 
         # gradient of PC parameters by PyTorch.
         self.params.requires_grad = False
+        return self.params.shape[0]
 
     def _extract_params_to_rnodes(self):
         n_start = 0
