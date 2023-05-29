@@ -174,7 +174,7 @@ class CategoricalLayer(InputLayer):
     def get_param_specs(self):
         return {"params": torch.Size([self.params.size(0)])}
 
-    @torch.compile(mode = "default", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 13 == 0)
+    @torch.compile(mode = "default", disable=int(os.environ.get('JUICE_COMPILE_FLAG', str(0xFFFF))) & 1 << 13 == 0)
     def _dense_forward_pass(self, data: torch.Tensor, node_mars: torch.Tensor,
                                                             params: torch.Tensor, 
                                                             missing_mask: Optional[torch.Tensor]=None, 
@@ -194,7 +194,7 @@ class CategoricalLayer(InputLayer):
 
         return None
 
-    @torch.compile(mode = "default", disable=int(os.environ.get('JUICE_COMPILE_FLAG', '0xFFFF')) & 1 << 12 == 0)
+    @torch.compile(mode = "default", disable=int(os.environ.get('JUICE_COMPILE_FLAG', str(0xFFFF))) & 1 << 12 == 0)
     def _dense_forward_pass_nolog(self, data: torch.Tensor, node_mars: torch.Tensor, params: torch.Tensor):
         sid, eid = self._output_ind_range[0], self._output_ind_range[1]
         node_mars[sid:eid,:] = ((params[data[self.vids] + self.psids.unsqueeze(1)] + 1e-8).clamp(min=1e-10))
